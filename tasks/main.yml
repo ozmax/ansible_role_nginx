@@ -1,0 +1,23 @@
+---
+- name: Nginx is installed.
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+    force_apt_get: yes
+
+- name: Nginx configuration is copied in sites-available.
+  template:
+      src: templates/nginx.conf
+      dest: /etc/nginx/sites-available/{{ project_name }}.conf
+
+- name: Nginx configuration is symlinked to sites-enabled.
+  file: >
+      src=/etc/nginx/sites-available/{{ project_name }}.conf
+      path=/etc/nginx/sites-enabled/{{ project_name }}.conf
+      state=link
+
+- name: Nginx is reloaded.
+  service:
+    name: nginx
+    state: reloaded
