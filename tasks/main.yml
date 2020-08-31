@@ -12,6 +12,7 @@
     dest: "/etc/nginx/conf.d/{{ item }}.conf"
   with_items:
   - gzip
+  - charset
 
 - name: Project specific configuration is copied in sites-available.
   template:
