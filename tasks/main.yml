@@ -1,8 +1,8 @@
-- include_task: base.yaml
-- include_task: vhosts.yaml
+- include_tasks: base.yaml
+- include_tasks: vhosts.yaml
   vars:
     protocol: http
-- include_task: certificates.yaml
-- include_task: vhosts.yaml
+- include_tasks: certificates.yaml
+- include_tasks: vhosts.yaml
   vars:
     protocol: https
