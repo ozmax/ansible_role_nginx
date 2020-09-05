@@ -1,0 +1,1 @@
+letsencrypt_webroot_base_path: "/opt/letsencrypt_challenges/"
