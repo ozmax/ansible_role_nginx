@@ -1,0 +1,23 @@
+- name: Certbot is installed.
+  apt:
+    name: certbot
+    state: present
+    update_cache: yes
+    force_apt_get: yes
+
+- name: Certbot webroot directory exists.
+  file:
+    state: directory
+    path: "{{ letsencrypt_webroot_base_path }}{{ project_name }}/"
+
+- name: Certificates are issued.
+  command: >
+    certbot certonly -m admin@ozmax.eu --agree-tos --non-interactive --webroot
+      --webroot-path {{ letsencrypt_webroot_base_path }}{{ project_name }}/
+      --domain {{ domain }} --domain www.{{ domain }} --expand
+
+- name: Nginx is reloaded when new certificates are issued.
+  template:
+      src: templates/reload_nginx_deploy_hook
+      dest: /etc/letsencrypt/renewal-hooks/deploy/reload_nginx
+      mode: u+x

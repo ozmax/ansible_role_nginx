@@ -1,31 +1,8 @@
----
-- name: Nginx is installed.
-  apt:
-    name: nginx
-    state: present
-    update_cache: yes
-    force_apt_get: yes
-
-- name: Nginx configuration files are copied in conf.d folder
-  template:
-    src: "templates/{{ item }}.conf"
-    dest: "/etc/nginx/conf.d/{{ item }}.conf"
-  with_items:
-  - gzip
-  - charset
-
-- name: Project specific configuration is copied in sites-available.
-  template:
-      src: templates/nginx.conf
-      dest: /etc/nginx/sites-available/{{ project_name }}.conf
-
-- name: Nginx configuration is symlinked to sites-enabled.
-  file: >
-      src=/etc/nginx/sites-available/{{ project_name }}.conf
-      path=/etc/nginx/sites-enabled/{{ project_name }}.conf
-      state=link
-
-- name: Nginx is reloaded.
-  service:
-    name: nginx
-    state: reloaded
+- include_tasks: base.yaml
+- include_tasks: vhosts.yaml
+  vars:
+    protocol: http
+- include_tasks: certificates.yaml
+- include_tasks: vhosts.yaml
+  vars:
+    protocol: https

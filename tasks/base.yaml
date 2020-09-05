@@ -1,0 +1,14 @@
+- name: Nginx is installed.
+  apt:
+    name: nginx
+    state: present
+    update_cache: yes
+    force_apt_get: yes
+
+- name: Nginx configuration files are copied in conf.d folder.
+  template:
+    src: "templates/{{ item }}.conf"
+    dest: "/etc/nginx/conf.d/{{ item }}.conf"
+  with_items:
+  - gzip
+  - charset

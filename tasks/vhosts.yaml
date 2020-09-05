@@ -1,0 +1,15 @@
+- name: Project http configuration is copied in sites-available.
+  template:
+      src: templates/{{ protocol }}.conf
+      dest: "/etc/nginx/sites-available/{{ project_name }}_{{ protocol }}.conf"
+
+- name: Nginx configuration is symlinked to sites-enabled.
+  file:
+      src: "/etc/nginx/sites-available/{{ project_name }}_{{ protocol }}.conf"
+      path: "/etc/nginx/sites-enabled/{{ project_name }}_{{ protocol }}.conf"
+      state: link
+
+- name: Nginx is reloaded.
+  service:
+    name: nginx
+    state: reloaded
