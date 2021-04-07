@@ -12,7 +12,7 @@
 
 - name: Certificates are issued.
   command: >
-    certbot certonly -m admin@ozmax.eu --agree-tos --non-interactive --webroot
+    certbot certonly -m {{ certificate_issuer_email }} --agree-tos --non-interactive --webroot
       --webroot-path {{ letsencrypt_webroot_base_path }}{{ project_name }}/
       --domain {{ domain }} --domain www.{{ domain }} --expand
 
